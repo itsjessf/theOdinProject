@@ -1,0 +1,26 @@
+* {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.image {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title {
+  font-weight: 200;
+  text-align: center;
+  color: coral;
+}
+
+h3{
+  color:rgb(255, 187, 0);
+}
+
+h4{
+  color:rgb(255, 123, 0);
+}
