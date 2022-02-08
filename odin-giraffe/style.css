@@ -50,6 +50,8 @@ a:active {
   flex-grow: 10;
 }
 
+/*  INTRO PART  */
+
 .flex-intro {
   display: flex;
   flex-direction: row;
@@ -63,6 +65,7 @@ a:active {
   background-color: inherit;
   flex: 1;
   flex-direction: column;
+  padding: 20px;
 }
 
 .intro-space {
@@ -107,4 +110,53 @@ a:active {
   background-color: inherit;
   height: inherit;
   max-width: fit-content;
+}
+
+/* BODY STARTS*/
+
+.flex-info {
+  display: flex;
+  flex-direction: row;
+  background-color: #f9faf8;
+  justify-content: center;
+}
+
+.flex-info h2 {
+  font-size: 32px;
+  color: #1f2937;
+  text-align: center;
+}
+
+.flex-images {
+  display: flex;
+  flex-direction: row;
+  background-color: #f9faf8;
+  height: 500px;
+  justify-content: center;
+}
+
+.flex-images > div {
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  height: auto;
+  margin: 20px;
+  justify-content: center;
+  
+}
+
+.flex-images p {
+     width: inherit;
+     font-size: 18;
+     color: #1f2937;
+     margin: 0px;
+     text-align: center;
+    
+}
+
+.flex-images img{
+     width: inherit;
+     border: 3px solid #3882f6;
+     border-radius: 1.1875rem;
+     margin: 10px;
 }
