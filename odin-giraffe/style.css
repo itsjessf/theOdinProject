@@ -81,7 +81,7 @@ a:active {
   color: #e5e7eb;
 }
 
-.button {
+.flex-intro .button {
   position: left;
   display: inline-flex;
   flex: 0 0 auto;
@@ -184,4 +184,62 @@ a:active {
   width: 70%;
   align-self: center;
   margin: 10px;
+}
+
+/*   CALL TO ACTION STARTS  */
+
+.flex-action {
+  display: flex;
+  flex-direction: row;
+  background-color: #f9faf8;
+  padding: 100px;
+  justify-content: center;
+}
+
+.flex-action .blue-action {
+  display: flex;
+  flex-direction: row;
+  background-color: #3882f6;
+  border-radius: 1.1875rem;
+  padding: 30px;
+  align-self: center;
+}
+
+.blue-action .call {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flex-action h3 {
+  font-size: 25px;
+  font-weight: bold;
+  color: #e5e7eb;
+  margin: 0;
+}
+
+.flex-action p {
+  display: flex;
+  font-size: 20px;
+  font-weight: lighter;
+  color: #e5e7eb;
+  margin: 0;
+}
+
+.flex-action button {
+  position: right;
+  display: flex;
+  flex: 0 0 auto;
+  border-radius: 2rem;
+  border: 2px solid white;
+  padding: 0 1.25rem;
+  line-height: 2.125rem;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px;
+  width: max-content;
+  height: max-content;
+  background-color: #3882f6;
+  color: #f9faf8;
 }
