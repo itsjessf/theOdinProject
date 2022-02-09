@@ -58,28 +58,25 @@ a:active {
   padding: 100px;
   background-color: #1f2937;
   height: 400px;
+  justify-content: center;
 }
 
 .intro {
   display: flex;
+  flex: 1 1 0;
   background-color: inherit;
-  flex: 1;
   flex-direction: column;
   padding: 20px;
+  justify-content: center;
 }
 
-.intro-space {
-  flex: 1;
-}
 .flex-intro .title {
-  flex: 1;
   font-size: 48px;
   font-weight: bolder;
   color: #f9faf8;
 }
 
 .flex-intro .description {
-  flex: 1;
   font-size: 18px;
   color: #e5e7eb;
 }
@@ -100,16 +97,16 @@ a:active {
   color: #f9faf8;
 }
 
-.flex-intro .spacer {
-  flex-grow: 0.5;
-}
-
 .flex-image {
   display: flex;
-  flex: 1;
+  flex: 1 1 0;
   background-color: inherit;
   height: inherit;
   max-width: fit-content;
+}
+
+.flex-intro .space {
+  flex: 1 1 0;
 }
 
 /* BODY STARTS*/
@@ -142,21 +139,49 @@ a:active {
   height: auto;
   margin: 20px;
   justify-content: center;
-  
 }
 
 .flex-images p {
-     width: inherit;
-     font-size: 18;
-     color: #1f2937;
-     margin: 0px;
-     text-align: center;
-    
+  width: inherit;
+  font-size: 18;
+  color: #1f2937;
+  margin: 0px;
+  text-align: center;
 }
 
-.flex-images img{
-     width: inherit;
-     border: 3px solid #3882f6;
-     border-radius: 1.1875rem;
-     margin: 10px;
+.flex-images img {
+  width: inherit;
+  border: 3px solid #3882f6;
+  border-radius: 1.1875rem;
+  margin: 10px;
+}
+
+/*  QUOTE STARTS   */
+
+.flex-quote {
+  display: flex;
+  flex-direction: column;
+  background-color: #e5e7eb;
+  justify-content: center;
+  padding: 50px;
+}
+
+.flex-quote h2 {
+  font-size: 36px;
+  color: #1f2937;
+  font-style: italic;
+  font-weight: lighter;
+  margin: 10px;
+  width: 70%;
+  align-self: center;
+}
+
+.flex-quote h3 {
+  display: flex;
+  font-size: 27px;
+  color: #1f2937;
+  justify-content: flex-end;
+  width: 70%;
+  align-self: center;
+  margin: 10px;
 }
