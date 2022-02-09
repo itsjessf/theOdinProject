@@ -243,3 +243,16 @@ a:active {
   background-color: #3882f6;
   color: #f9faf8;
 }
+
+/*  FOOTER STARTS */
+
+footer{
+     display: flex;
+     flex-direction: row;
+     background-color: #1f2937;
+     color: #e5e7eb;
+     font-size: 25px;
+     font-weight: lighter;
+     padding: 10px;
+     justify-content: center;
+}
