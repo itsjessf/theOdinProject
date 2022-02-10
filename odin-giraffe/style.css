@@ -82,17 +82,18 @@ a:active {
 }
 
 .flex-intro .button {
-  position: left;
-  display: inline-flex;
+  position: right;
+  display: flex;
   flex: 0 0 auto;
-  border-radius: 1.1875rem;
+  border: 1px solid black;
+  border-radius: 0.5rem;
   padding: 0 1.25rem;
   line-height: 2.125rem;
-  font-size: 0.875rem;
-  font-weight: 400;
-  text-align: left;
-  margin: 0.125rem;
-  width: max-content;
+  font-size: 20px;
+  text-align: center;
+  margin: 20px;
+  width: fit-content;
+  height: max-content;
   background-color: #3882f6;
   color: #f9faf8;
 }
@@ -230,7 +231,7 @@ a:active {
   position: right;
   display: flex;
   flex: 0 0 auto;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   border: 2px solid white;
   padding: 0 1.25rem;
   line-height: 2.125rem;
@@ -246,13 +247,13 @@ a:active {
 
 /*  FOOTER STARTS */
 
-footer{
-     display: flex;
-     flex-direction: row;
-     background-color: #1f2937;
-     color: #e5e7eb;
-     font-size: 25px;
-     font-weight: lighter;
-     padding: 10px;
-     justify-content: center;
+footer {
+  display: flex;
+  flex-direction: row;
+  background-color: #1f2937;
+  color: #e5e7eb;
+  font-size: 25px;
+  font-weight: lighter;
+  padding: 10px;
+  justify-content: center;
 }
