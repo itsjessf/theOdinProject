@@ -1,32 +1,47 @@
 interface Board {
   drawBoard: () => void;
-  updateBoard: (coordinate: number[], character: string) => void;
-  startBoard : () => void
+  updateBoard: (x: number, y: number, character: string) => void;
+  startBoard: () => void;
 }
+
 
 const gameBoard: Board = (() => {
   let board: Array<string[]>;
 
   const startBoard = () => {
     board = [
-      ["", "", ""],
-      ["", "", ""],
-      ["", "", ""],
+      ["i", "i", "i"],
+      ["i", "i", "i"],
+      ["i", "i", "i"],
     ];
   };
-
   const drawBoard = () => {
+    const app = document.getElementById("game");
+
     for (const row of board) {
-      console.log(`${row[0]} ${row[1]} ${row[2]}`);
+      const p = document.createElement("p");
+      app?.appendChild(p);
+      for (const element of row) {
+        const button = document.createElement("button");
+        button.textContent = element;
+        p?.appendChild(button);
+      }
+
+
     }
   };
 
-  const updateBoard = (coordinate: number[], character: string) => {
-    board[coordinate[0]][coordinate[1]] = character;
-    drawBoard();
+  const updateBoard = (x: number, y: number, character: string) => {
+        board[y][x] = character;
+        console.log(board);
+
   };
-  startBoard();
+
   return { updateBoard, drawBoard, startBoard };
 })();
 
+gameBoard.startBoard();
+gameBoard.updateBoard(1, 2, "X");
+gameBoard.updateBoard(2, 2, "O");
 gameBoard.drawBoard();
+

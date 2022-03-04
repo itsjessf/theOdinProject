@@ -5,7 +5,6 @@
   "main": "app.js",
   "scripts": {
     "start:build": "tsc -w",
-    "start:run": "nodemon build/app.js",
     "start": "concurrently npm:start:*",
     "lint": "eslint . --ext .ts"
   },
