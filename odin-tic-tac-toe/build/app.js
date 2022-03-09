@@ -1,98 +1,120 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
+var PlayerTypes;
+(function (PlayerTypes) {
+    PlayerTypes["human"] = "X";
+    PlayerTypes["computer"] = "O";
+})(PlayerTypes || (PlayerTypes = {}));
 const GameBoard = (() => {
     const board = [
         ["i", "i", "i"],
         ["i", "i", "i"],
         ["i", "i", "i"],
     ];
+    let currentPlayer = PlayerTypes.human;
+    let gameIsFinished = false;
     const drawBoard = () => {
-        const app = document.getElementById("game");
+        var _a;
+        const paragraph = (_a = document.getElementById("game")) === null || _a === void 0 ? void 0 : _a.children;
+        if (typeof paragraph == "undefined") {
+            console.log("yo app doesnt exist");
+            return;
+        }
         for (const [yAxis, row] of board.entries()) {
-            const p = document.createElement("p");
-            app === null || app === void 0 ? void 0 : app.appendChild(p);
             for (const [xAxies, element] of row.entries()) {
-                const button = document.createElement("button");
+                const button = paragraph[yAxis].children[xAxies];
                 button.textContent = element;
-                button.addEventListener("click", function () {
-                    updateBoard(yAxis, xAxies, "X");
-                    winCon({ y: yAxis, x: xAxies });
-                });
-                p.appendChild(button);
             }
         }
     };
-    const updateBoard = (y, x, character) => {
-        var _a;
-        if (cellIsPlayable(y, x)) {
+    const playCell = (y, x, playerType) => {
+        if (!cellIsPlayable(y, x)) {
+            console.log("Not a playable cell");
             return;
         }
-        board[y][x] = character;
-        console.log(board);
-        const nodes = (_a = document.getElementById("game")) === null || _a === void 0 ? void 0 : _a.childNodes;
-        if (nodes) {
-            nodes[y + 2].childNodes[x].textContent = character;
+        if (playerType !== currentPlayer) {
+            console.log("You are not the current player");
+            return;
         }
+        board[y][x] = playerType;
+        drawBoard();
+        winCon({ y: y, x: x });
+        if (isGameFinished()) {
+            gameStats();
+        }
+        currentPlayer =
+            currentPlayer === PlayerTypes.human
+                ? PlayerTypes.computer
+                : PlayerTypes.human;
     };
     const cellIsPlayable = (y, x) => {
         if (board[y][x] != "i") {
-            return true;
+            return false;
         }
-        return false;
-    };
-    const cellHasCharacter = (y, x, char) => {
-        if (board[y][x] == char) {
-            return true;
-        }
-        return false;
-    };
-    const getBoardRow = (y) => {
-        return board[y];
-    };
-    const getBoardColumn = (x) => {
-        return [board[0][x], board[1][x], board[2][x]];
+        return true;
     };
     const winCon = (playedPos) => {
         //Horizontal and Vertical Wincon
-        const boardRow = getBoardRow(playedPos.y);
-        const boardColumn = getBoardColumn(playedPos.x);
+        const boardRow = board[playedPos.y];
+        const boardColumn = [
+            board[0][playedPos.x],
+            board[1][playedPos.x],
+            board[2][playedPos.x],
+        ];
         if (boardRow.every((val, i, arr) => val === arr[0]) ||
             boardColumn.every((val, i, arr) => val === arr[0])) {
             console.log("Thats a win");
+            gameIsFinished = true;
+        }
+        else {
+            gameIsFinished = false;
         }
     };
-    return { updateBoard, drawBoard, cellIsPlayable, cellHasCharacter, winCon };
+    const isGameFinished = () => {
+        return gameIsFinished === true ? true : false;
+    };
+    const gameStats = () => {
+        console.log();
+    };
+    return { playCell, drawBoard, cellIsPlayable, winCon, isGameFinished };
 })();
 const computerSelection = () => {
+    if (GameBoard.isGameFinished()) {
+        return;
+    }
     let randomY;
     let randomX;
     do {
         randomY = randomIntFromInterval(0, 2);
         randomX = randomIntFromInterval(0, 2);
-    } while (GameBoard.cellIsPlayable(randomY, randomX) == true);
-    GameBoard.updateBoard(randomY, randomX, "O");
-    GameBoard.winCon({ y: randomY, x: randomX });
+    } while (GameBoard.cellIsPlayable(randomY, randomX) == false);
+    console.log("Computer Played");
+    GameBoard.playCell(randomY, randomX, PlayerTypes.computer);
 };
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-function computerPlay() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const promise = new Promise((resolve) => {
-            setTimeout(() => resolve(computerSelection()), 3000);
-        });
-        yield promise;
-    });
+function addEventListeners() {
+    var _a;
+    const paragraph = (_a = document.getElementById("game")) === null || _a === void 0 ? void 0 : _a.children;
+    if (typeof paragraph == "undefined") {
+        console.log("yo app doesnt exist");
+        return;
+    }
+    for (let x = 0; x < paragraph.length; x++) {
+        for (let y = 0; y < paragraph[x].children.length; y++) {
+            const button = paragraph[x].children[y];
+            button.addEventListener("click", function () {
+                GameBoard.playCell(x, y, PlayerTypes.human);
+                computerSelection();
+            }, { once: true });
+        }
+    }
 }
-GameBoard.drawBoard();
-computerPlay();
-//to do : Game 
+//to do : Game
+const Game = () => {
+    GameBoard.drawBoard();
+    console.log("Player should play");
+    addEventListeners();
+};
+Game();
 //to do : Check for vertical matches
