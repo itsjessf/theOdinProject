@@ -21,7 +21,7 @@ const GameBoard: Board = (() => {
     ],
     currentPlayer: PlayerTypes.human,
     gameIsFinished: false,
-    winner: "",
+    winner: "No one",
   };
 
   let state = { ...initialState };
@@ -127,6 +127,7 @@ const GameBoard: Board = (() => {
     if (numberOfPlayedCells == 9) {
       console.log("No one wins");
       state.gameIsFinished = true;
+      displayWinner();
     }
   };
 
@@ -146,14 +147,20 @@ const GameBoard: Board = (() => {
 
   const displayWinner = () => {
     const popUp = document.getElementById("popup");
+    const blur = document.getElementById("blur");
+    console.log(blur);
     const popUpChildren = popUp?.children;
-    if (typeof popUp == "undefined" || typeof popUpChildren == "undefined") {
+    if (
+      typeof popUp == "undefined" ||
+      typeof popUpChildren == "undefined" ||
+      typeof blur == "undefined"
+    ) {
       console.log("yo the pop up doesnt exist");
       return;
     }
     popUpChildren[1].innerHTML = state.winner + "!";
+    blur?.classList.toggle("active");
     popUp?.classList.toggle("active");
-    console.log(popUp);
   };
 
   return {
@@ -166,15 +173,17 @@ const GameBoard: Board = (() => {
   };
 })();
 
-const computerSelection = () => {
-  let randomY: number;
-  let randomX: number;
-  do {
-    randomY = randomIntFromInterval(0, 2);
-    randomX = randomIntFromInterval(0, 2);
-  } while (GameBoard.isCellPlayable(randomY, randomX) == false);
+const computerSelection = async () => {
+  setTimeout(() => {
+    let randomY: number;
+    let randomX: number;
+    do {
+      randomY = randomIntFromInterval(0, 2);
+      randomX = randomIntFromInterval(0, 2);
+    } while (GameBoard.isCellPlayable(randomY, randomX) == false);
 
-  GameBoard.playCell(randomY, randomX, PlayerTypes.computer);
+    GameBoard.playCell(randomY, randomX, PlayerTypes.computer);
+  }, randomIntFromInterval(10, 1000));
 };
 
 const playerSelection = (x: number, y: number) => {
@@ -200,7 +209,6 @@ function addEventListeners() {
         function () {
           playerSelection(x, y);
           if (GameBoard.isGameFinished()) {
-            //GameBoard.displayWinner();
             return;
           }
           computerSelection();
@@ -215,11 +223,16 @@ function addEventListeners() {
 function restart() {
   GameBoard.restartGame();
   const popUp = document.getElementById("popup");
-  if (typeof popUp == "undefined") {
+  const blur = document.getElementById("blur");
+
+  if (typeof popUp == "undefined" || typeof blur == "undefined") {
     console.log("yo the pop up doesnt exist");
     return;
   }
+
   popUp?.classList.toggle("active");
+  blur?.classList.toggle("active");
+
   Game();
 }
 
@@ -230,5 +243,3 @@ const Game = () => {
 };
 
 Game();
-
-//to do : Check for vertical matches

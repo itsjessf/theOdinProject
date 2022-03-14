@@ -48,6 +48,12 @@ h1 {
   border: 0px;
 }
 
+#blur.active {
+  filter: blur(5px);
+  pointer-events: none;
+  user-select: none;
+}
+
 #popup {
   position: fixed;
   top: 40%;
@@ -56,13 +62,13 @@ h1 {
   width: 600px;
   padding: 50px;
   background: #fff;
-  -webkit-box-shadow: -9px 5px 15px 5px #ffe488, -7px -5px 15px 5px #8cff85,
-    5px 5px 15px 5px rgba(138, 209, 255, 0);
-  box-shadow: -9px 5px 15px 5px #ffe488, -7px -5px 15px 5px #8cff85,
-    5px 5px 15px 5px rgba(138, 209, 255, 0);
-    visibility: hidden;
-    opacity: 0;
-    transition: 0.5s;
+  -webkit-box-shadow: inset -1px 3px 8px 5px #535658e5,
+    2px 5px 16px 0px #535658e5, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+  box-shadow: inset -1px 3px 8px 5px #535658e5, 2px 5px 16px 0px #535658e5,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
 }
 
 #popup.active {
@@ -74,9 +80,9 @@ h1 {
 
 #popup button {
   box-shadow: inset 0px 1px 0px 0px #fce2c1;
-  background-color: #ffc477;
+  background-color: #45d0d4;
   border-radius: 6px;
-  border: 1px solid #eeb44f;
+  border: 1px solid #ffffff;
   display: inline-block;
   cursor: pointer;
   color: #ffffff;
@@ -94,16 +100,30 @@ h1 {
 }
 
 #popup button:hover {
-  background-color: #fb9e25;
+  background-color: #5b919e;
+}
+
+h2 {
+  font-family: Georgia, serif;
+  font-size: 25px;
+  letter-spacing: 2px;
+  word-spacing: 2px;
+  color: #000000;
+  font-weight: 400;
+  text-decoration: none solid rgb(68, 68, 68);
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
 }
 
 h3 {
   font-size: 100px;
+  margin: 10px;
   color: #ffffff;
   background: #ffffff;
-  text-shadow: 2px 2px 0 #4aac57, 2px -2px 0 #4aac57, -2px 2px 0 #4aac57,
-    -2px -2px 0 #4aac57, 2px 0px 0 #4aac57, 0px 2px 0 #4aac57,
-    -2px 0px 0 #4aac57, 0px -2px 0 #4aac57;
+  text-shadow: 2px 2px 0 #4576b6, 2px -2px 0 #4576b6, -2px 2px 0 #4576b6,
+    -2px -2px 0 #4576b6, 2px 0px 0 #4576b6, 0px 2px 0 #4576b6,
+    -2px 0px 0 #4576b6, 0px -2px 0 #4576b6;
   color: #ffffff;
   background: #ffffff;
 }

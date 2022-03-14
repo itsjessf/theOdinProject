@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var PlayerTypes;
 (function (PlayerTypes) {
     PlayerTypes["human"] = "X";
@@ -13,7 +22,7 @@ const GameBoard = (() => {
         ],
         currentPlayer: PlayerTypes.human,
         gameIsFinished: false,
-        winner: "",
+        winner: "No one",
     };
     let state = Object.assign({}, initialState);
     const restartGame = () => {
@@ -108,6 +117,7 @@ const GameBoard = (() => {
         if (numberOfPlayedCells == 9) {
             console.log("No one wins");
             state.gameIsFinished = true;
+            displayWinner();
         }
     };
     const isGameFinished = () => {
@@ -124,14 +134,18 @@ const GameBoard = (() => {
     };
     const displayWinner = () => {
         const popUp = document.getElementById("popup");
+        const blur = document.getElementById("blur");
+        console.log(blur);
         const popUpChildren = popUp === null || popUp === void 0 ? void 0 : popUp.children;
-        if (typeof popUp == "undefined" || typeof popUpChildren == "undefined") {
+        if (typeof popUp == "undefined" ||
+            typeof popUpChildren == "undefined" ||
+            typeof blur == "undefined") {
             console.log("yo the pop up doesnt exist");
             return;
         }
         popUpChildren[1].innerHTML = state.winner + "!";
+        blur === null || blur === void 0 ? void 0 : blur.classList.toggle("active");
         popUp === null || popUp === void 0 ? void 0 : popUp.classList.toggle("active");
-        console.log(popUp);
     };
     return {
         playCell,
@@ -142,15 +156,17 @@ const GameBoard = (() => {
         restartGame,
     };
 })();
-const computerSelection = () => {
-    let randomY;
-    let randomX;
-    do {
-        randomY = randomIntFromInterval(0, 2);
-        randomX = randomIntFromInterval(0, 2);
-    } while (GameBoard.isCellPlayable(randomY, randomX) == false);
-    GameBoard.playCell(randomY, randomX, PlayerTypes.computer);
-};
+const computerSelection = () => __awaiter(void 0, void 0, void 0, function* () {
+    setTimeout(() => {
+        let randomY;
+        let randomX;
+        do {
+            randomY = randomIntFromInterval(0, 2);
+            randomX = randomIntFromInterval(0, 2);
+        } while (GameBoard.isCellPlayable(randomY, randomX) == false);
+        GameBoard.playCell(randomY, randomX, PlayerTypes.computer);
+    }, randomIntFromInterval(10, 1000));
+});
 const playerSelection = (x, y) => {
     GameBoard.playCell(x, y, PlayerTypes.human);
 };
@@ -170,7 +186,6 @@ function addEventListeners() {
             button.addEventListener("click", function () {
                 playerSelection(x, y);
                 if (GameBoard.isGameFinished()) {
-                    //GameBoard.displayWinner();
                     return;
                 }
                 computerSelection();
@@ -182,11 +197,13 @@ function addEventListeners() {
 function restart() {
     GameBoard.restartGame();
     const popUp = document.getElementById("popup");
-    if (typeof popUp == "undefined") {
+    const blur = document.getElementById("blur");
+    if (typeof popUp == "undefined" || typeof blur == "undefined") {
         console.log("yo the pop up doesnt exist");
         return;
     }
     popUp === null || popUp === void 0 ? void 0 : popUp.classList.toggle("active");
+    blur === null || blur === void 0 ? void 0 : blur.classList.toggle("active");
     Game();
 }
 const Game = () => {
@@ -195,4 +212,3 @@ const Game = () => {
     addEventListeners();
 };
 Game();
-//to do : Check for vertical matches
