@@ -1,9 +1,10 @@
 interface Board {
   drawBoard: () => void;
   playCell: (x: number, y: number, playerType: PlayerTypes) => void;
-  cellIsPlayable: (x: number, y: number) => boolean;
-  winCon: (playedPos: { y: number; x: number }) => void;
   isGameFinished: () => boolean;
+  isCellPlayable: (y: number, x: number) => boolean;
+  displayWinner: () => void;
+  restartGame: () => void;
 }
 
 enum PlayerTypes {
@@ -12,14 +13,28 @@ enum PlayerTypes {
 }
 
 const GameBoard: Board = (() => {
-  const board: Array<string[]> = [
-    ["i", "i", "i"],
-    ["i", "i", "i"],
-    ["i", "i", "i"],
-  ];
+  const initialState = {
+    board: [
+      ["i", "i", "i"],
+      ["i", "i", "i"],
+      ["i", "i", "i"],
+    ],
+    currentPlayer: PlayerTypes.human,
+    gameIsFinished: false,
+    winner: "",
+  };
 
-  let currentPlayer = PlayerTypes.human;
-  let gameIsFinished = false;
+  let state = { ...initialState };
+
+  const restartGame = () => {
+    console.log("The Game restarted");
+    state = { ...initialState };
+    state.board = [
+      ["i", "i", "i"],
+      ["i", "i", "i"],
+      ["i", "i", "i"],
+    ];
+  };
 
   const drawBoard = () => {
     const paragraph = document.getElementById("game")?.children;
@@ -27,7 +42,7 @@ const GameBoard: Board = (() => {
       console.log("yo app doesnt exist");
       return;
     }
-    for (const [yAxis, row] of board.entries()) {
+    for (const [yAxis, row] of state.board.entries()) {
       for (const [xAxies, element] of row.entries()) {
         const button = paragraph[yAxis].children[xAxies];
         button.textContent = element;
@@ -36,76 +51,134 @@ const GameBoard: Board = (() => {
   };
 
   const playCell = (y: number, x: number, playerType: PlayerTypes) => {
-    if (!cellIsPlayable(y, x)) {
+    if (!isCellPlayable(y, x)) {
       console.log("Not a playable cell");
       return;
     }
-    if (playerType !== currentPlayer) {
+    if (playerType !== state.currentPlayer) {
       console.log("You are not the current player");
       return;
     }
-    board[y][x] = playerType;
+    state.board[y][x] = playerType;
     drawBoard();
-    winCon({ y: y, x: x });
+    winCon(y, x);
+    drawCon();
     if (isGameFinished()) {
-      gameStats();
+      return;
     }
-    currentPlayer =
-      currentPlayer === PlayerTypes.human
+    state.currentPlayer =
+      state.currentPlayer === PlayerTypes.human
         ? PlayerTypes.computer
         : PlayerTypes.human;
   };
 
-  const cellIsPlayable = (y: number, x: number) => {
-    if (board[y][x] != "i") {
-      return false;
-    }
-    return true;
+  const isCellPlayable = (y: number, x: number) => {
+    return state.board[y][x] == "i" ? true : false;
   };
 
-  const winCon = (playedPos: { y: number; x: number }) => {
-    //Horizontal and Vertical Wincon
-    const boardRow = board[playedPos.y];
+  const winCon = (y: number, x: number) => {
+    const boardRow = state.board[y];
     const boardColumn = [
-      board[0][playedPos.x],
-      board[1][playedPos.x],
-      board[2][playedPos.x],
+      state.board[0][x],
+      state.board[1][x],
+      state.board[2][x],
+    ];
+    const boardDiagonalLeft = [
+      state.board[2][0],
+      state.board[1][1],
+      state.board[0][2],
+    ];
+    const boardDiagonalRight = [
+      state.board[0][0],
+      state.board[1][1],
+      state.board[2][2],
     ];
 
     if (
       boardRow.every((val, i, arr) => val === arr[0]) ||
       boardColumn.every((val, i, arr) => val === arr[0])
     ) {
-      console.log("Thats a win");
-      gameIsFinished = true;
-    } else {
-      gameIsFinished = false;
+      calculateWinner(y, x);
+    }
+
+    // Diagonal win cons
+    if (x == y) {
+      if (boardDiagonalRight.every((val, i, arr) => val === arr[0])) {
+        calculateWinner(y, x);
+      }
+    }
+
+    if ((x == 0 && y == 2) || (x == 2 && y == 0) || (x == 1 && y == 1)) {
+      if (boardDiagonalLeft.every((val, i, arr) => val === arr[0])) {
+        calculateWinner(y, x);
+      }
+    }
+  };
+
+  const drawCon = () => {
+    let numberOfPlayedCells = 0;
+    for (const row of state.board) {
+      for (const cell of row) {
+        if (cell != "i") {
+          numberOfPlayedCells++;
+        }
+      }
+    }
+    if (numberOfPlayedCells == 9) {
+      console.log("No one wins");
+      state.gameIsFinished = true;
     }
   };
 
   const isGameFinished = () => {
-    return gameIsFinished === true ? true : false;
+    return state.gameIsFinished === true ? true : false;
   };
 
-  const gameStats = () => {
-    console.log();
+  const calculateWinner = (y: number, x: number) => {
+    console.log("Thats a win");
+    state.gameIsFinished = true;
+    const character: string = state.board[y][x];
+    PlayerTypes.human === character
+      ? (state.winner = "Human")
+      : (state.winner = "Computer");
+    displayWinner();
   };
 
-  return { playCell, drawBoard, cellIsPlayable, winCon, isGameFinished };
+  const displayWinner = () => {
+    const popUp = document.getElementById("popup");
+    const popUpChildren = popUp?.children;
+    if (typeof popUp == "undefined" || typeof popUpChildren == "undefined") {
+      console.log("yo the pop up doesnt exist");
+      return;
+    }
+    popUpChildren[1].innerHTML = state.winner + "!";
+    popUp?.classList.toggle("active");
+    console.log(popUp);
+  };
+
+  return {
+    playCell,
+    drawBoard,
+    isGameFinished,
+    isCellPlayable,
+    displayWinner,
+    restartGame,
+  };
 })();
 
 const computerSelection = () => {
-  if (GameBoard.isGameFinished()) {
-    return;
-  }
   let randomY: number;
   let randomX: number;
   do {
     randomY = randomIntFromInterval(0, 2);
     randomX = randomIntFromInterval(0, 2);
-  } while (GameBoard.cellIsPlayable(randomY, randomX) == false);
-  console.log("Computer Played");
+  } while (GameBoard.isCellPlayable(randomY, randomX) == false);
+
   GameBoard.playCell(randomY, randomX, PlayerTypes.computer);
+};
+
+const playerSelection = (x: number, y: number) => {
+  GameBoard.playCell(x, y, PlayerTypes.human);
 };
 
 function randomIntFromInterval(min: number, max: number) {
@@ -121,24 +194,38 @@ function addEventListeners() {
   for (let x = 0; x < paragraph.length; x++) {
     for (let y = 0; y < paragraph[x].children.length; y++) {
       const button = paragraph[x].children[y];
+
       button.addEventListener(
         "click",
         function () {
-          GameBoard.playCell(x, y, PlayerTypes.human);
+          playerSelection(x, y);
+          if (GameBoard.isGameFinished()) {
+            //GameBoard.displayWinner();
+            return;
+          }
           computerSelection();
         },
         { once: true }
       );
     }
   }
+  return;
 }
 
-//to do : Game
+function restart() {
+  GameBoard.restartGame();
+  const popUp = document.getElementById("popup");
+  if (typeof popUp == "undefined") {
+    console.log("yo the pop up doesnt exist");
+    return;
+  }
+  popUp?.classList.toggle("active");
+  Game();
+}
 
 const Game = () => {
+  console.log("New Game");
   GameBoard.drawBoard();
-  console.log("Player should play");
-
   addEventListeners();
 };
 
