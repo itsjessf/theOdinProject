@@ -6,13 +6,15 @@
   "scripts": {
     "test": "jest",
     "start:build": "tsc -w",
-    "start": "concurrently npm:start:*",
-    "lint": "eslint . --ext .ts"
+    "start": "concurrently npm:start:*"
   },
   "author": "jess",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
+    "eslint": "^8.11.0",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.3",
     "typescript": "^4.6.2"
