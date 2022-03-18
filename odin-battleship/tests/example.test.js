@@ -1,10 +1,22 @@
-const add = require("../src/index");
+const {Ship, GameBoard} = require("../src/index");
 
-describe("test add function", () => {
-  it("should return 15 for add(10,5)", () => {
-    expect(add(10, 5)).toBe(15);
-  });
-it("should return 5 for add(2,3)", () => {
-    expect(add(2, 3)).toBe(5);
-  });
+
+test('when all positions are hit, isSunk returns true ', () => {
+  let testShip = Ship(3);
+  testShip.hit(0);
+  testShip.hit(1);
+  testShip.hit(2);
+  expect(testShip.isSunk()).toBe(true);
+});
+
+test('when not all positions are hit, isSunk returns false ', () => {
+  let testShip = Ship(3);
+  testShip.hit(0);
+  testShip.hit(1);
+  expect(testShip.isSunk()).toBe(false);
+});
+
+test('should return length ', () => {
+  let testShip = Ship(3);
+  expect(testShip.getShipLength()).toBe(3);
 });
