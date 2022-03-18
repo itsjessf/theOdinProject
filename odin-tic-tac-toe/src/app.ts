@@ -15,9 +15,9 @@ enum PlayerTypes {
 const GameBoard: Board = (() => {
   const initialState = {
     board: [
-      ["i", "i", "i"],
-      ["i", "i", "i"],
-      ["i", "i", "i"],
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
     ],
     currentPlayer: PlayerTypes.human,
     gameIsFinished: false,
@@ -30,9 +30,9 @@ const GameBoard: Board = (() => {
     console.log("The Game restarted");
     state = { ...initialState };
     state.board = [
-      ["i", "i", "i"],
-      ["i", "i", "i"],
-      ["i", "i", "i"],
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
     ];
   };
 
@@ -73,7 +73,7 @@ const GameBoard: Board = (() => {
   };
 
   const isCellPlayable = (y: number, x: number) => {
-    return state.board[y][x] == "i" ? true : false;
+    return state.board[y][x] == "" ? true : false;
   };
 
   const winCon = (y: number, x: number) => {
@@ -119,7 +119,7 @@ const GameBoard: Board = (() => {
     let numberOfPlayedCells = 0;
     for (const row of state.board) {
       for (const cell of row) {
-        if (cell != "i") {
+        if (cell != "") {
           numberOfPlayedCells++;
         }
       }

@@ -16,9 +16,9 @@ var PlayerTypes;
 const GameBoard = (() => {
     const initialState = {
         board: [
-            ["i", "i", "i"],
-            ["i", "i", "i"],
-            ["i", "i", "i"],
+            ["", "", ""],
+            ["", "", ""],
+            ["", "", ""],
         ],
         currentPlayer: PlayerTypes.human,
         gameIsFinished: false,
@@ -29,9 +29,9 @@ const GameBoard = (() => {
         console.log("The Game restarted");
         state = Object.assign({}, initialState);
         state.board = [
-            ["i", "i", "i"],
-            ["i", "i", "i"],
-            ["i", "i", "i"],
+            ["", "", ""],
+            ["", "", ""],
+            ["", "", ""],
         ];
     };
     const drawBoard = () => {
@@ -70,7 +70,7 @@ const GameBoard = (() => {
                 : PlayerTypes.human;
     };
     const isCellPlayable = (y, x) => {
-        return state.board[y][x] == "i" ? true : false;
+        return state.board[y][x] == "" ? true : false;
     };
     const winCon = (y, x) => {
         const boardRow = state.board[y];
@@ -109,7 +109,7 @@ const GameBoard = (() => {
         let numberOfPlayedCells = 0;
         for (const row of state.board) {
             for (const cell of row) {
-                if (cell != "i") {
+                if (cell != "") {
                     numberOfPlayedCells++;
                 }
             }
